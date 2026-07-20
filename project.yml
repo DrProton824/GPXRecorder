@@ -8,6 +8,7 @@ targets:
     deploymentTarget: "15.0"
     sources: [Sources/GPXRecorder]
     info:
+      path: Sources/GPXRecorder/Info.plist
       properties:
         UILaunchScreen: {}
         CFBundleDisplayName: "GPX Recorder"
