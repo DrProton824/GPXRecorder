@@ -1,1 +1,51 @@
+name: Build GPX Recorder .tipa
 
+on:
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: 'App version (e.g. 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen and ldid
+        run: brew install xcodegen ldid
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build .app
+        run: |
+          xcodebuild -project GPXRecorder.xcodeproj \
+            -scheme GPXRecorder \
+            -configuration Release \
+            -derivedDataPath build/DerivedData \
+            -destination 'generic/platform=iOS' \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package .tipa
+        run: |
+          set -e
+          APP_PATH="build/DerivedData/Build/Products/Release-iphoneos/GPXRecorder.app"
+          mkdir -p build/Payload
+          cp -r "$APP_PATH" build/Payload/GPXRecorder.app
+          codesign --remove-signature build/Payload/GPXRecorder.app || true
+          ldid -S build/Payload/GPXRecorder.app/GPXRecorder
+          cd build
+          zip -vr "GPXRecorder_v${{ inputs.app_version }}.tipa" Payload
+          cd -
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GPXRecorder_v${{ inputs.app_version }}
+          path: build/GPXRecorder_v${{ inputs.app_version }}.tipa
