@@ -7,6 +7,10 @@ struct ContentView: View {
     @State private var filename = ""
     @State private var exportURL: URL? = nil
     @State private var showExporter = false
+    @State private var recordingStartTime: Date? = nil
+    @State private var elapsedSeconds: Int = 0
+    
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack(spacing: 32) {
@@ -15,6 +19,12 @@ struct ContentView: View {
             Text(recorder.isRecording ? "Recording…" : "Ready")
                 .font(.title2)
                 .foregroundColor(recorder.isRecording ? .red : .secondary)
+            
+            if recorder.isRecording {
+                Text(formattedElapsedTime)
+                    .font(.system(size: 40, weight: .bold, design: .monospaced))
+                    .foregroundColor(.primary)
+            }
             
             Text("\(recorder.pointCount) points recorded")
                 .font(.subheadline)
@@ -37,6 +47,10 @@ struct ContentView: View {
         .onAppear {
             recorder.requestPermission()
         }
+        .onReceive(timer) { _ in
+            guard let start = recordingStartTime else { return }
+            elapsedSeconds = Int(Date().timeIntervalSince(start))
+        }
         .alert("Save Recording", isPresented: $showFilenamePrompt) {
             TextField("Filename", text: $filename)
             Button("Save") { finalizeExport() }
@@ -54,11 +68,22 @@ struct ContentView: View {
     private func toggleRecording() {
         if recorder.isRecording {
             recorder.stop()
+            recordingStartTime = nil
             filename = "recording-\(Int(Date().timeIntervalSince1970))"
             showFilenamePrompt = true
         } else {
+            recordingStartTime = Date()
+            elapsedSeconds = 0
             recorder.start()
         }
+    }
+    
+    private var formattedElapsedTime: String {
+        let h = elapsedSeconds / 3600
+        let m = (elapsedSeconds % 3600) / 60
+        let s = elapsedSeconds % 60
+        if h > 0 { return String(format: "%d:%02d:%02d", h, m, s) }
+        return String(format: "%02d:%02d", m, s)
     }
     
     private func finalizeExport() {
