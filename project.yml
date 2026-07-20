@@ -6,7 +6,8 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: "15.0"
-    sources: [Sources/GPXRecorder]
+    sources:
+      - Sources/GPXRecorder
     info:
       path: Sources/GPXRecorder/Info.plist
       properties:
