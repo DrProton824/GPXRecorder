@@ -1,1 +1,26 @@
-
+name: GPXRecorder
+options:
+  bundleIdPrefix: com.drproton824
+targets:
+  GPXRecorder:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources: [Sources/GPXRecorder]
+    info:
+      properties:
+        UILaunchScreen: {}
+        CFBundleDisplayName: "GPX Recorder"
+        NSLocationWhenInUseUsageDescription: "GPX Recorder needs your location to record a track."
+        NSLocationAlwaysAndWhenInUseUsageDescription: "GPX Recorder needs your location in the background so recording keeps working while the screen is off."
+        UIBackgroundModes: [location]
+        UIRequiredDeviceCapabilities: [armv7]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.drproton824.gpxrecorder
+        CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
