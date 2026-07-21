@@ -4,7 +4,7 @@ A minimal iOS app that records your device's real, unfiltered location stream an
 
 ## Why this exists
 
-Most GPS-recording apps on the App Store either record on a fixed interval (once every N seconds, regardless of what's actually happening) or quietly stop updating while stationary — even though iOS's own location services keep producing new fixes the whole time. GPX Recorder does neither. It uses `CLLocationManager` with distance filtering and automatic pausing both disabled, so every location update the OS decides to deliver gets written to the track, exactly as the device produced it — moving or stationary, foreground or background.
+Most GPS-recording apps on the App Store either record on a fixed interval (once every N seconds, regardless of what's actually happening) or quietly stop updating while stationary, even though iOS's own location services keep producing new fixes the whole time. GPX Recorder does neither. It uses `CLLocationManager` with distance filtering and automatic pausing both disabled, so every location update the OS decides to deliver gets written to the track, exactly as the device produced it, moving or stationary, foreground or background.
 
 ## Features
 
@@ -16,8 +16,8 @@ Most GPS-recording apps on the App Store either record on a fixed interval (once
 
 ## Installation
 
-1. Download the latest `.tipa` from this repo's [Actions](../../actions) artifacts (or a Release, if one exists).
-2. Transfer it to your iPhone (AirDrop, Files, email — any method that gets the file onto the device).
+1. Download the latest `.tipa` from this repo's [Actions](../../actions) artifacts.
+2. Transfer it to your iPhone (AirDrop, Files, email or any method that gets the file onto the device).
 3. Open it with [TrollStore](https://github.com/opa334/TrollStore) to install.
 4. On first launch, grant location access. Then go to **Settings → Privacy & Security → Location Services → GPX Recorder** and set it to **Always**, with **Precise Location** enabled — this is required for recording to continue while the app is backgrounded or the screen is locked.
 
@@ -27,7 +27,7 @@ Each track point currently includes latitude, longitude, altitude, and a timesta
 
 ## Building it yourself
 
-The project uses [XcodeGen](https://github.com/yonaskolb/XcodeGen) to generate the Xcode project from `project.yml`, and builds via GitHub Actions on a macOS runner — no local Mac required.
+The project uses [XcodeGen](https://github.com/yonaskolb/XcodeGen) to generate the Xcode project from `project.yml`, and builds via GitHub Actions on a macOS runner, no local Mac required.
 
 To build:
 1. Go to the **Actions** tab → **Build GPX Recorder .tipa** → **Run workflow**.
@@ -42,4 +42,4 @@ If you notice recorded points wobbling slightly (by a few meters) even while com
 
 ## License
 
-No license specified yet — add one here if you intend to share or open-source this.
+No license specified yet.
