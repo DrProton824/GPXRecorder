@@ -13,6 +13,8 @@ targets:
       properties:
         UILaunchScreen: {}
         CFBundleDisplayName: "GPX Recorder"
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         NSLocationWhenInUseUsageDescription: "GPX Recorder needs your location to record a track."
         NSLocationAlwaysAndWhenInUseUsageDescription: "GPX Recorder needs your location in the background so recording keeps working while the screen is off."
         UIBackgroundModes: [location]
